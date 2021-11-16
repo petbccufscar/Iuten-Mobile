@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button, TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Iuten from './iuten'
@@ -6,8 +6,33 @@ import Iuten from './iuten'
 const padding = 10
 const square = (wp("100%") - 10) / 9
 
+
+let timer = null
+
+
+
 export default function Jogo({route}) {
   const NPLAYERS = route.params.NPLAYERS
+  timer = null
+  
+
+  return(<Tabuleiro NPLAYERS={NPLAYERS}/>)
+}
+
+
+function  Tabuleiro(props) {
+  const [play, setplay] = useState(true);
+  useEffect(() => {
+    return () => {
+      setplay(false)
+    }
+}, [])
+   if (timer == null){
+    timer = setInterval(() => {
+      ia();
+  }, 1000);
+   }
+  const NPLAYERS = props.NPLAYERS
   const [iut, setIut] = useState(new Iuten());
   const [table, setTable] = useState(iut.getTable());
   const [marked, setMarked] = useState([[], []]);
@@ -87,31 +112,26 @@ export default function Jogo({route}) {
   }
 
   const ia = async () => {
-    setTimeout( () => {
-
-      if (NPLAYERS < 2){
-        let u = iut.bogoSillyIneffectiveChoice(1, true)
-        if (u != null) {
-          iut.move(u[0], u[1], 1, u[2])
-          setTable(iut.table)
-          setMarked([[], []])
-          setIut((iut))
+      if (play){
+        let iaTeam;
+        if (NPLAYERS < 2){
+          iaTeam = 0;
         }
+        if (NPLAYERS == 0){
+          iaTeam = iut.CURPLAYER;
+        } 
+        if (NPLAYERS != 2){
+  
+          let u = iut.bogoSillyIneffectiveChoice(iaTeam, true)
+  
+          if (u != null) {
+            iut.move(u[0], u[1], iaTeam, u[2])
+            setTable(iut.table)
+            setMarked([[], []])
+            setIut((iut))
+          }
       }
-      // FIXME Esse metodo de usar a IA acaba travando a tela,
-      // Descobrir um método melhor de chamar a IA e reconstruir a tela
-      if (NPLAYERS == 0){
-        let u = iut.bogoSillyIneffectiveChoice(0, true)
-        if (u != null) {
-          iut.move(u[0], u[1], 0, u[2])
-          setTable(iut.table)
-          setMarked([[], []])
-          setIut((iut))
-        }
-      }
-
-
-    }, 100)
+    }
   }
 
   let reset = () => {
@@ -131,7 +151,6 @@ export default function Jogo({route}) {
         return (<></>)
     }
   let texto = iut.gameover() == 0? `Vez de jogador: ${iut.CURPLAYER + 1}`: `Jogador ${iut.gameover()} Ganhou!`
-  ia()
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 30, fontWeight:'bold',margin: 20}}>{texto}</Text>

@@ -12,7 +12,7 @@ export default class Iuten {
         this.TRONO2 = [5,12]
         this.ELEFANTES1 = 0
         this.ELEFANTES2 = 0
-        this.CURPLAYER = 0
+        this.CURPLAYER = 1
         this.SPECIALROUND = false
         this.finished = false
         // TODO VOLTAR AQUI
@@ -366,11 +366,11 @@ export default class Iuten {
         this.finished = true
         if (this.table[this.TRONO1[1]][this.TRONO1[0]] == 'P'){
             console.log('P chegou no trono')
-            return 1
+            return 2
         }
         else if (this.table[this.TRONO2[1]][this.TRONO2[0]] == 'p'){
-            console.log('P chegou no trono')
-            return 2
+            console.log('p chegou no trono')
+            return 1
         }
 
         else {
@@ -388,10 +388,10 @@ export default class Iuten {
             }   
             if (countp == 0){
                 console.log('todos p morreram')
-                return 1
+                return 2
             } else if(countP == 0){
                 console.log('todos P morreram')
-                return 2
+                return 1
             }
             
         }
