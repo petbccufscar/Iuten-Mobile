@@ -32,10 +32,13 @@ function  Tabuleiro(props) {
       ia();
   }, 1000);
    }
+
+  let myTeam = 1;
   const NPLAYERS = props.NPLAYERS
   const [iut, setIut] = useState(new Iuten());
   const [table, setTable] = useState(iut.getTable());
   const [marked, setMarked] = useState([[], []]);
+  const [enemyMoves, setEnemyMoves] = useState([[], []]);
   const [SELECTED, setSELECTED] = useState(null);
 
   const branco = '#FFF'
@@ -43,6 +46,20 @@ function  Tabuleiro(props) {
   const amarelo = '#F0F'
   const vermelho = '#F00'
   const azul = "#00F"
+  const orange100 = "#ffe0b2"
+  const orange400 = "#ffb74d"
+
+  switch (NPLAYERS){
+    case 1:
+      myTeam = 1;
+      break
+    case 2:
+      myTeam = iut.CURPLAYER;
+      break
+    case 0:
+    default:
+      myTeam = 3;
+  }
 
   const color = (i, j) => {
 
@@ -53,6 +70,10 @@ function  Tabuleiro(props) {
       return verde
     } else if (iut.includes(marked[1], [i, j])) {
       return amarelo
+    }else if (iut.includes(enemyMoves[0], [i, j])) {
+      return orange100
+    } else if (iut.includes(enemyMoves[1], [i, j])) {
+      return orange400
     } else if (iut.includes([iut.TORRE1, iut.TORRE2], [i, j])) {
       return azul
     } else if (iut.includes([iut.TRONO2, iut.TRONO1], [i, j])) {
@@ -61,7 +82,6 @@ function  Tabuleiro(props) {
 
     return branco
   }
-
 
   const touch = (i, j) => {
 
@@ -78,8 +98,16 @@ function  Tabuleiro(props) {
         break
       default:
         setSELECTED([i, j])
-        let check = iut.checkMoves([i, j], iut.CURPLAYER)
-        setMarked(check)
+        if (iut.isMy([i,j], myTeam)){
+          let check = iut.checkMoves([i, j], myTeam)
+          setMarked(check)
+          setEnemyMoves([[], []])
+        } else {
+          let check = iut.checkEnemyMoves([i, j], myTeam)
+          setEnemyMoves(check)
+          setMarked([[], []])
+        }
+        
         break
 
     }
@@ -138,8 +166,10 @@ function  Tabuleiro(props) {
       iut.restart()
       setTable(iut.table)
       setMarked([[],[]])
+      setEnemyMoves([[],[]])
       setSELECTED(null)
   }
+
   let ResetComponent = ({reset}) => {
         if (NPLAYERS != 0)
             return(
@@ -150,6 +180,8 @@ function  Tabuleiro(props) {
             </TouchableOpacity>)
         return (<></>)
     }
+
+
   let texto = iut.gameover() == 0? `Vez de jogador: ${iut.CURPLAYER + 1}`: `Jogador ${iut.gameover()} Ganhou!`
   return (
     <View style={styles.container}>

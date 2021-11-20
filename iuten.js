@@ -305,8 +305,12 @@ export default class Iuten {
         const b = (team == 1 && this.isupper(peca) && this.isalpha(peca))
         return f(peca) && (a || b)
     }
-    checkMoves(p, team){
-        if (team != this.CURPLAYER){
+
+    checkEnemyMoves(p, team){
+        return this.checkMoves(p, Math.abs(team - 1) ,false);
+    }
+    checkMoves(p, team, verify = true){
+        if (team != this.CURPLAYER && verify || team > 1){
             // console.log(`Não é o seu turno ${this.CURPLAYER} ${team}`)
             return [[],[]]
         }
