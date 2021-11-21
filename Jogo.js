@@ -97,7 +97,6 @@ function  Tabuleiro(props) {
 
     return branco
   }
-
   const touch = (i, j) => {
 
     switch (color(i, j)) {
@@ -105,10 +104,17 @@ function  Tabuleiro(props) {
         iut.move(SELECTED, [i, j], iut.CURPLAYER, 'm')
         setMarked([[], []])
         setTable(iut.table)
+
         break
       case amarelo:
         iut.move(SELECTED, [i, j], iut.CURPLAYER, 's')
-        setMarked([[], []])
+        if (iut.table[j][i].toLowerCase() == 'c'){
+          setSELECTED([i, j])  
+          let check = iut.checkMoves([i, j], myTeam)
+          setMarked(check)
+        }else{
+          setMarked([[], []])
+        }
         setTable(iut.table)
         break
       default:
@@ -140,7 +146,13 @@ function  Tabuleiro(props) {
         break
       case amarelo:
         iut.move(SELECTED, [i, j], iut.CURPLAYER, 's')
-        setMarked([[], []])
+        if (iut.table[j][i].toLowerCase() == 'c'){
+          setSELECTED([i, j])  
+          let check = iut.checkMoves([i, j], myTeam)
+          setMarked(check)
+        }else{
+          setMarked([[], []])
+        }
         setTable(iut.table)
         break
       default:

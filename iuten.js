@@ -111,7 +111,7 @@ export default class Iuten {
     }
     isupper(myString) { 
         return (myString == myString.toUpperCase()); 
-      } 
+    } 
     islower(myString) { 
         return (myString == myString.toLowerCase()); 
     } 
@@ -273,16 +273,47 @@ export default class Iuten {
         return [moves, []]
     }
     
+
+    separador(lista, team){
+        if (lista.length > 3){
+
+            if (this.isMy(lista[lista.length-1], Math.abs(team - 1))){
+                return [lista.slice(0,lista.length-1), [lista[lista.length-1]]]
+            }else{  
+                return [lista, []]
+            }
+        }else{
+            return [lista, []]
+        }
+    }
+
     cavaleiro(p, team, bonus = false){
         let moves = []
+        let special = []
+
+        let aux = []
         if (bonus)
             return [this.adjacente(p, team), []]
-        moves.push(...this.raioLaser(p, 1, 10, team))
-        moves.push(...this.raioLaser(p, 2, 10, team))
-        moves.push(...this.raioLaser(p, 3, 8, team))
-        moves.push(...this.raioLaser(p, 4, 8, team))
-        return [moves, []]
+
+        aux = this.separador(this.raioLaser(p, 1, 10, team), team)
+        moves.push(...aux[0])
+        special.push(...aux[1])
+
+        aux = this.separador(this.raioLaser(p, 2, 10, team), team)
+        moves.push(...aux[0])
+        special.push(...aux[1])
+
+        aux = this.separador(this.raioLaser(p, 3, 8, team), team)
+        moves.push(...aux[0])
+        special.push(...aux[1])
+
+        aux = this.separador(this.raioLaser(p, 4, 8, team), team)
+        moves.push(...aux[0])
+        special.push(...aux[1])
+
+        return [moves, special]
     }
+
     equals(a, b){
         return JSON.stringify(a) === JSON.stringify(b);
     }
@@ -462,7 +493,7 @@ export default class Iuten {
             // Caso especial do cavaleiro
             if (piece.toLowerCase() == 'c' && this.SPECIALROUND)
                 this.SPECIALROUND = false
-            else if (piece.toLowerCase() == 'c' && ! this.SPECIALROUND && oldPiece != '_' && diff >= 3 && ! ( this.includes([this.TORRE1, this.TORRE2],newpos))){
+            else if (piece.toLowerCase() == 'c' && ! this.SPECIALROUND && oldPiece != '_' && this.types[type] == 1 && ! ( this.includes([this.TORRE1, this.TORRE2],newpos))){
                 this.SPECIALROUND = true
                 next = this.CURPLAYER
             }
