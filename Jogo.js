@@ -19,18 +19,19 @@ export default function Jogo({route}) {
   return(<Tabuleiro NPLAYERS={NPLAYERS}/>)
 }
 
-
 function  Tabuleiro(props) {
+  const cooldown = NPLAYERS == 2 ? 200 : 1000
   const [play, setplay] = useState(true);
   useEffect(() => {
     return () => {
       setplay(false)
     }
 }, [])
-   if (timer == null){
+
+  if (timer == null){
     timer = setInterval(() => {
       ia();
-  }, 1000);
+  }, cooldown);
    }
 
   let myTeam = 1;
@@ -48,6 +49,7 @@ function  Tabuleiro(props) {
   const azul = "#00F"
   const orange100 = "#ffe0b2"
   const orange400 = "#ffb74d"
+  const ciano = "#00FFFF"
 
   switch (NPLAYERS){
     case 1:
@@ -63,6 +65,17 @@ function  Tabuleiro(props) {
 
   const color = (i, j) => {
 
+    if (iut.gameover() != 0){
+      if (iut.includes([iut.TORRE1, iut.TORRE2], [i, j])) {
+        return azul
+      } else if (iut.includes([iut.TRONO2, iut.TRONO1], [i, j])) {
+        return vermelho
+      }
+      return branco
+    }
+    
+    if (enemyMoves == undefined || enemyMoves.length < 2)
+      setEnemyMoves([[],[]])
     if (marked == undefined || marked.length < 2)
       setMarked([[],[]])
 
@@ -74,6 +87,8 @@ function  Tabuleiro(props) {
       return orange100
     } else if (iut.includes(enemyMoves[1], [i, j])) {
       return orange400
+    } else if (iut.includes(iut.lastMove, [i,j])){
+      return ciano
     } else if (iut.includes([iut.TORRE1, iut.TORRE2], [i, j])) {
       return azul
     } else if (iut.includes([iut.TRONO2, iut.TRONO1], [i, j])) {

@@ -115,7 +115,7 @@ export default function Tutorial() {
               <Paragraph style={styles.paragraph}>
               Arqueiros são capazes de se movimentar na horizontal e na diagonal, sendo uma casa no máximo na horizontal e até duas na diagonal.
               </Paragraph>
-              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/4.png')}/>
+              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/5.png')}/>
 
               <Headline>Ataque</Headline>
               <Paragraph style={styles.paragraph}>
@@ -136,7 +136,7 @@ export default function Tutorial() {
 A frente de um elefante é sempre voltada para a base inimiga.
 
               </Paragraph>
-              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/5.png')}/>
+              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/6.png')}/>
 
               <Headline>Ataque</Headline>
               <Paragraph style={styles.paragraph}>
@@ -155,7 +155,7 @@ A frente de um elefante é sempre voltada para a base inimiga.
               O cavaleiro é capaz de andar na horizontal e vertical, podendo andar quantas casas forem possíveis nessas direções, apenas sendo parado por peças aliadas, peças inimigas (que ele pode capturar, mas será descrito melhor na seção Ataque) e pela casa que representa a torre.
 
               </Paragraph>
-              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/6.png')}/>
+              <Image style={{ width: 150, height: 150 }}  source={require('./images/tutorial/7.png')}/>
 
               <Headline>Ataque</Headline>
               <Paragraph style={styles.paragraph}>

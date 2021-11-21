@@ -10,6 +10,7 @@ export default class Iuten {
         this.TORRE2 = [5,9]
         this.TRONO1 = [5,2]
         this.TRONO2 = [5,12]
+        this.lastMove = []
         this.ELEFANTES1 = 0
         this.ELEFANTES2 = 0
         this.CURPLAYER = 1
@@ -365,6 +366,7 @@ export default class Iuten {
                 return [[],[]]
         }
     }
+    
     sum = (array) => array.reduce(function(pv, cv) { return pv + cv; }, 0);
     gameover(){
         this.finished = true
@@ -405,6 +407,7 @@ export default class Iuten {
         this.finished = false
         return 0
     }
+    
     move(p, np, team, type){
         let next = this.CURPLAYER == 1 ? 0: 1
         if (team != this.CURPLAYER)
@@ -470,6 +473,7 @@ export default class Iuten {
             console.log(np)
             console.log(possible[this.types[type]])
         }
+        this.lastMove = [p,np]
     }
 
     // TODO implementar
