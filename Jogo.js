@@ -20,7 +20,8 @@ export default function Jogo({route}) {
 }
 
 function  Tabuleiro(props) {
-  const cooldown = NPLAYERS == 2 ? 200 : 1000
+  const NPLAYERS = props.NPLAYERS
+  const cooldown = NPLAYERS == 0 ? 200 : 1000
   const [play, setplay] = useState(true);
   useEffect(() => {
     return () => {
@@ -35,7 +36,6 @@ function  Tabuleiro(props) {
    }
 
   let myTeam = 1;
-  const NPLAYERS = props.NPLAYERS
   const [iut, setIut] = useState(new Iuten());
   const [table, setTable] = useState(iut.getTable());
   const [marked, setMarked] = useState([[], []]);
@@ -303,9 +303,12 @@ const styles = StyleSheet.create({
   },
   non: {
     height: 0,
-    width: 0
+    width: 0,
+    margin: 0,
+    padding: 0
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: square*9 - 1,
   }
 });

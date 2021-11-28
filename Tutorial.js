@@ -8,6 +8,28 @@ export default function Tutorial() {
   return (
     <ScrollView>
     <List.Section>
+    <List.Accordion
+        title="Dicas Rápidas"
+        left={props => <List.Icon {...props} icon="flash" />}>
+          <View style={styles.textbox}>
+        <Paragraph style={styles.paragraph}>
+          - É possível ver os movimentos possíveis tocando rápidamente em uma peça.
+          </Paragraph>
+        <Paragraph style={styles.paragraph}>
+         - É possível ver apenas os movimentos ESPECIAIS possíveis fazendo um toque longo em uma peça.
+          </Paragraph>
+          <Paragraph style={styles.paragraph}>
+           - É possível ver os movimentos do outro jogador tocando nas peças dele.
+          </Paragraph>
+          <Paragraph style={styles.paragraph}>
+           - Apenas o Arqueiro pode ficar na torre azul, caso outra peça suba na torre, ela DEVERÁ descer na próxima rodada.
+          </Paragraph>
+          <Paragraph style={styles.paragraph}>
+           - Para moer uma peça, basta tocar em um movimento possível dela.
+          </Paragraph>
+          </View>
+      </List.Accordion>
+
       <List.Accordion
         title="Introdução"
         left={props => <List.Icon {...props} icon="book-open" />}>
