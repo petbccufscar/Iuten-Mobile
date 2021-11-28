@@ -1,11 +1,14 @@
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Button } from 'react-native';
-
+import { StyleSheet, View, FlatList, TouchableOpacity, Image, Button } from 'react-native';
+import {Text, useTheme} from 'react-native-paper';
+import { PreferencesContext } from './PreferencesContext';
 
 
 export default function Menu({navigation}) {
 
+    const theme = useTheme();
+    const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
     let pvp = () => {
         navigation.navigate('Iuten Player x Player');
@@ -39,6 +42,12 @@ export default function Menu({navigation}) {
                 style={styles.button}
                 onPress={manual}
             ><Text>Manual</Text></TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                    toggleTheme();
+                }}
+            ><Text>Trocar tema</Text></TouchableOpacity>
             
       </View>
     
@@ -48,7 +57,6 @@ export default function Menu({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },

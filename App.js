@@ -4,24 +4,111 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Jogo from './Jogo';
 import Iuten from './iuten'
-import { IconButton, Title, useTheme } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { IconButton, Title, useTheme, 
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider, } from 'react-native-paper';
+import { useNavigation,
+  DarkTheme as NavigationDarkTheme,
+  NavigationContainer,
+  DefaultTheme as NavigationDefaultTheme, } from '@react-navigation/native';
+  import AsyncStorage from '@react-native-async-storage/async-storage';
+  import { PreferencesContext } from './PreferencesContext';
 import Menu from './Menu'
 
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import Tutorial from './Tutorial';
+
+const CombinedDefaultTheme = {
+  ...PaperDefaultTheme,
+  ...NavigationDefaultTheme,
+  colors: {
+    ...PaperDefaultTheme.colors,
+    ...NavigationDefaultTheme.colors,
+  },
+};
+const CombinedDarkTheme = {
+  ...PaperDarkTheme,
+  ...NavigationDarkTheme,
+  colors: {
+    ...PaperDarkTheme.colors,
+    ...NavigationDarkTheme.colors,
+  },
+};
+
 
 const Stack = createStackNavigator();
 
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('isThemeDark')
+    if(value !== null) {
+      return JSON.parse(value);
+    }
+  } catch(e) {
+    // error reading value
+  }
+
+  return false;
+}
+
 export default function App() {
+
+
+  const [isThemeDark, setIsThemeDark] = React.useState(false);
+  const [isInitialState, setIsInitialState] = React.useState(true);
+
+  React.useEffect(() => {
+    const initialUrl = async () => { 
+      setIsThemeDark(await getData())
+    }
+
+    if(isInitialState){
+      initialUrl()
+      setIsInitialState(false)
+    }
+  }, []);
+  
+
+  let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+
+
+
+  const toggleTheme = React.useCallback(() =>  {
+
+    try {
+      
+      const jsonValue = JSON.stringify(!isThemeDark)
+      AsyncStorage.setItem('isThemeDark', jsonValue)
+    } catch (e) {
+      // algoritmo do avestruz
+      console.log("erro", e)
+
+    }
+
+    return setIsThemeDark(!isThemeDark);
+
+  }, [isThemeDark]);
+
+  const preferences = React.useMemo(
+    () => ({
+      toggleTheme,
+      isThemeDark,
+    }),
+    [toggleTheme, isThemeDark]
+  );
     return (
-      <NavigationContainer>
+      
+      <PreferencesContext.Provider value={preferences}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer theme={theme}>
 
         <MyStack>
 
         </MyStack>
       </NavigationContainer>
+      </PaperProvider>
+      </PreferencesContext.Provider>
     
   );
 }
@@ -38,7 +125,6 @@ function MyStack() {
         navigation.navigate('Manual')
       }} />,
       headerTitleAlign: 'center',
-      headerTintColor: "blue",
   }}>
       <Stack.Screen name="Iuten" component={Menu} />
       <Stack.Screen name="Iuten Player x Player" component={Jogo} initialParams={{ NPLAYERS: 2 }} />

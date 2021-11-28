@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, FlatList, Button, TouchableOpacity, Image } from 'react-native';
+import {Text, useTheme} from 'react-native-paper';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Iuten from './iuten'
+import { PreferencesContext } from './PreferencesContext';
 
 const padding = 10
 const square = (wp("100%") - 10) / 9
@@ -41,8 +43,10 @@ function  Tabuleiro(props) {
   const [marked, setMarked] = useState([[], []]);
   const [enemyMoves, setEnemyMoves] = useState([[], []]);
   const [SELECTED, setSELECTED] = useState(null);
+  
+  const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
-  const branco = '#FFF'
+  const branco = isThemeDark ? "#333" : "#fff"
   const verde = '#0F0'
   const amarelo = '#F0F'
   const vermelho = '#F00'
@@ -208,7 +212,7 @@ function  Tabuleiro(props) {
         return (<></>)
     }
 
-
+    
   let texto = iut.gameover() == 0? `Vez de jogador: ${iut.CURPLAYER + 1}`: `Jogador ${iut.gameover()} Ganhou!`
   return (
     <View style={styles.container}>
@@ -287,14 +291,12 @@ function Piece({ peca }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   square: {
     width: square,
     height: square,
-    borderColor: 'black',
     borderWidth: 1,
     justifyContent: 'center',
     alignContent: 'center',

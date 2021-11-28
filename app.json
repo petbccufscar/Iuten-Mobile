@@ -2,13 +2,13 @@
   "expo": {
     "name": "Iuten-Mobile",
     "slug": "Iuten-Mobile",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#77b7e7b"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
