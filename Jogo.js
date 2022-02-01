@@ -220,7 +220,7 @@ function Tabuleiro(props) {
           <Space />
           {e.map((f, j) => {
             if (i < 2 || j < 1 || j > 9 || i > 12)
-              return <View key={j} style={styles.non}></View>;
+              return <React.Fragment key={j}></React.Fragment>;
             const peca = table[i][j];
             return (
               <TouchableOpacity
@@ -311,6 +311,5 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    width: square * 9 - 1,
   },
 });
