@@ -520,7 +520,7 @@ class Iuten {
     if (rnd > coin) {
       return bogoSillyIneffectiveChoice(team);
     }
-    return IneffectiveChoice(team, teste);
+    return IneffectiveChoice(team, 2);
   }
 
   dist(a, b) {

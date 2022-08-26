@@ -176,7 +176,7 @@ function Tabuleiro(props) {
         iaTeam = iut.CURPLAYER;
       }
       if (NPLAYERS != 2) {
-        let u = iut.bogoSillyIneffectiveChoice(iaTeam, true);
+        let u = iut.DecisiveChoice(iaTeam, -1);
 
         if (u != null) {
           iut.move(u[0], u[1], iaTeam, u[2]);
