@@ -514,9 +514,10 @@ export default class Iuten{
     else return 10;
   }
 
-  DecisiveChoice(team, rnd, teste = false) {
+  DecisiveChoice(team, rnd, teste = 1) {
+    if (team != this.CURPLAYER) return null
     coin = Math.random()
-
+    console.log(rnd, coin)
     if (rnd > coin) {
       return this.bogoSillyIneffectiveChoice(team);
     }

@@ -9,19 +9,21 @@ import {
 } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { PreferencesContext } from "./PreferencesContext";
+import Slider from '@react-native-community/slider'
 
 export default function Menu({ navigation }) {
   const theme = useTheme();
+  const [sliderValue, setSliderValue] = useState(1)
   const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
   let pvp = () => {
     navigation.navigate("Iuten Player x Player");
   };
   let pvpc = () => {
-    navigation.navigate("Iuten Player x PC");
+    navigation.navigate("Iuten Player x PC", {random : 1 - sliderValue});
   };
   let pcvpc = () => {
-    navigation.navigate("Iuten PC x PC");
+    navigation.navigate("Iuten PC x PC", {random : 1 - sliderValue});
   };
   let manual = () => {
     navigation.navigate("Manual");
@@ -49,6 +51,17 @@ export default function Menu({ navigation }) {
       >
         <Text style={styles.text}>Trocar tema</Text>
       </TouchableOpacity>
+      <Text>Dificuldade do BOT</Text>
+      <Slider 
+        style={{width: 150, height: 30}}
+        maximumValue={1}
+        minimumValue={-0.1}
+        step={0.1}
+        value={sliderValue}
+          onValueChange={
+            (sliderValue) => setSliderValue(sliderValue)
+          }
+      />
     </View>
   );
 }

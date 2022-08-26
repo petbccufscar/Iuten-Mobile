@@ -22,13 +22,14 @@ let timer = null;
 
 export default function Jogo({ route }) {
   const NPLAYERS = route.params.NPLAYERS;
+  const RANDOM = route.params.random;
   timer = null;
-
-  return <Tabuleiro NPLAYERS={NPLAYERS} />;
+  return <Tabuleiro NPLAYERS={NPLAYERS} RANDOM={RANDOM}/>;
 }
 
 function Tabuleiro(props) {
   const NPLAYERS = props.NPLAYERS;
+  const RANDOM = props.RANDOM;
   const cooldown = 1000;
   const [play, setplay] = useState(true);
   useEffect(() => {
@@ -176,7 +177,7 @@ function Tabuleiro(props) {
         iaTeam = iut.CURPLAYER;
       }
       if (NPLAYERS != 2) {
-        let u = iut.DecisiveChoice(iaTeam, -1);
+        let u = iut.DecisiveChoice(iaTeam, RANDOM);
 
         if (u != null) {
           iut.move(u[0], u[1], iaTeam, u[2]);
