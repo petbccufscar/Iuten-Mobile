@@ -19,6 +19,8 @@ class Iuten {
     this.CURPLAYER = 1;
     this.SPECIALROUND = false;
     this.finished = false;
+    this.pqtd = 8
+    this.Pqtd = 8
     // TODO VOLTAR AQUI
     this.types = {};
     this.types["s"] = 1;
@@ -461,10 +463,14 @@ class Iuten {
         this.table[np[1]][np[0]] = this.table[p[1]][p[0]];
         this.table[p[1]][p[0]] = "_";
       }
-      let diff = Math.abs(np[1] - p[1]) + Math.abs(np[0] - p[0]);
       // Checagem se o jogo acabou
       if (oldPiece.toLowerCase() == "p" || piece.toLowerCase() == "p")
         this.gameover();
+
+      if (oldPiece == "p")
+        this.pqtd -= 1
+      if (oldPiece == "P")
+        this.Pqtd -= 1
       if (oldPiece.toLowerCase() == "e") {
         if (this.isupper(oldPiece)) this.ELEFANTES1 += 1;
         else this.ELEFANTES2 += 1;
@@ -518,8 +524,12 @@ class Iuten {
   }
 
   dist(a, b) {
-    return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2))
+    const a1 = Math.pow(a[0] - b[0], 2)
+    const b1 = Math.pow(a[1] - b[1], 2)
+    const result = Math.sqrt(a1 + b1)
+    return result
   }
+  print(a){console.log(a)}
   evalPiece(e) {
     let peca_lu = (this.table[e[1]][e[0]])
     if (peca_lu == 'p') {
@@ -549,12 +559,15 @@ class Iuten {
   evaluateState(node) {
     if (!node.finished) {
       let soma = 0.1
+      for (let j = 2; j < 13; j++) {
       for (let i = 1; i < 10; i++) {
-        for (let j = 2; j < 14; j++) {
-          if (node.isMy([i, j], 1))
-            soma += ((0.00002 * (13 - j) + 0.002) * (node.evalPiece([i, j])))
+          const au = node.evalPiece([i, j])
+          if (node.isMy([i, j], 1)){
+            soma += ((0.00002 * (13 - j + 1) + 0.002) * (au))
+          
+          }
           if (node.isMy([i, j], 0))
-            soma -= ((0.000021 * (j) + 0.002) * (node.evalPiece([i, j])))
+            soma -= ((0.000021 * (j - 1) + 0.002) * (au))
         }
       }
       return soma
@@ -713,15 +726,16 @@ class Iuten {
 iut = new Iuten();
 
 iut.printTable(iut.table);
+console.log(iut.value())
 let u;
 
 let mo = 0;
-while (!iut.finished) {
-  u = iut.IneffectiveChoice(iut.CURPLAYER);
-  iut.move(u[0], u[1], iut.CURPLAYER, u[2]);
+// while (!iut.finished) {
+//   u = iut.IneffectiveChoice(iut.CURPLAYER);
+//   iut.move(u[0], u[1], iut.CURPLAYER, u[2]);
+//   iut.printTable(iut.table);
 
-  mo++;
-}
+//   mo++;
+// }
 
-console.log(valorEscolhas / totalEscolhas, "b")
 console.log(mo, " movimentos");
