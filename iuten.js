@@ -516,8 +516,8 @@ export default class Iuten{
 
   DecisiveChoice(team, rnd, teste = 1) {
     if (team != this.CURPLAYER) return null
-    coin = Math.random()
-    console.log(rnd, coin)
+    const coin = Math.random()
+    if (rnd > 1) return this.bogoSillyIneffectiveChoice(team, true);
     if (rnd > coin) {
       return this.bogoSillyIneffectiveChoice(team);
     }
@@ -678,9 +678,10 @@ export default class Iuten{
     }
   }
 
-  bogoSillyIneffectiveChoice(team) {
+  bogoSillyIneffectiveChoice(team, inofencivo = false) {
     let moves = [];
     let special = [];
+    let mateiSemQuerer = []
     let escolhido = null;
     let escolhas = [];
     let esperto = false;
@@ -701,10 +702,15 @@ export default class Iuten{
               esperto = true;
               moves.unshift([[i, j], [trono], "m"]);
             } else {
-              if (alvo != "_") {
+              if (alvo != "_" && !inofencivo) {
                 esperto = true;
                 moves.unshift([[i, j], aux[0], "m"]);
-              } else moves.push([[i, j], aux[0], "m"]);
+              } else if (alvo != "_") {
+                mateiSemQuerer.unshift([[i, j], aux[0], "m"]);
+              }
+              else {
+                moves.push([[i, j], aux[0], "m"]);
+              }
             }
           }
           if (aux[1].length > 0) special.push([[i, j], aux[1], "s"]);
@@ -713,10 +719,17 @@ export default class Iuten{
     }
     valorEscolhas += nMove
     totalEscolhas++
-    if (special.length > 0) escolhas = special[this.rand(special.length)];
-    else if (moves.length > 0 && esperto) escolhas = moves[0];
-    else if (moves.length > 0) escolhas = moves[this.rand(moves.length)];
-    else return null;
+    if (!inofencivo){
+      if (special.length > 0) escolhas = special[this.rand(special.length)];
+      else if (moves.length > 0 && esperto) escolhas = moves[0];
+      else if (moves.length > 0) escolhas = moves[this.rand(moves.length)];
+      else return null;
+    } else {
+      if (moves.length > 0) escolhas = moves[this.rand(moves.length)];
+      else if(mateiSemQuerer.length > 0) escolhas = mateiSemQuerer[this.rand(mateiSemQuerer.length)];
+      else if (special.length > 0) escolhas = special[this.rand(special.length)];
+      else return null
+    }
 
     escolhido = [escolhas[0], escolhas[1][0], escolhas[2]];
 
