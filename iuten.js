@@ -2,7 +2,7 @@ let totalEscolhas = 0
 
 let valorEscolhas = 0
 
-class Iuten {
+export default class Iuten{
   restart() {
     this.table = [];
 
@@ -518,9 +518,9 @@ class Iuten {
     coin = Math.random()
 
     if (rnd > coin) {
-      return bogoSillyIneffectiveChoice(team);
+      return this.bogoSillyIneffectiveChoice(team);
     }
-    return IneffectiveChoice(team, 2);
+    return this.IneffectiveChoice(team, 2);
   }
 
   dist(a, b) {
@@ -619,7 +619,7 @@ class Iuten {
       return null
     var currentDate = new Date();
     var futureDate = new Date(currentDate.getTime() + 5000);
-    let move = this.alphabeta(this, depth, team, - Infinity, Infinity, futureDate, true)
+    let move = this.alphabeta(this, depth, team, - Infinity, Infinity, null, true)
     return [move[0], move[1], move[2]]
   }
 
@@ -639,7 +639,7 @@ class Iuten {
 
     let children = node.getAllStates()
     if (maximizingPlayer) {
-      children.sort((a, b) => { b.value() - a.value() })
+      children.sort((a, b) => { a.value() - b.value() })
       let value = - Infinity
       for (let cid = 0; cid < children.length; cid++) {
         let child = children[cid]
@@ -657,7 +657,7 @@ class Iuten {
       else
         return aux.lastMove
     } else {
-      children.sort((a, b) => { a.value() - b.value() })
+      children.sort((a, b) => { b.value() - a.value() })
       let value = Infinity
       for (let cid = 0; cid < children.length; cid++) {
         let child = children[cid]

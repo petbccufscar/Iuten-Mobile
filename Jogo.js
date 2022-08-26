@@ -29,7 +29,7 @@ export default function Jogo({ route }) {
 
 function Tabuleiro(props) {
   const NPLAYERS = props.NPLAYERS;
-  const cooldown = NPLAYERS == 0 ? 200 : 1000;
+  const cooldown = 1000;
   const [play, setplay] = useState(true);
   useEffect(() => {
     return () => {
@@ -39,12 +39,12 @@ function Tabuleiro(props) {
 
   if (timer == null) {
     timer = setInterval(() => {
-      ia();
+      BOT();
     }, cooldown);
   }
 
   let myTeam = 1;
-  const [iut, setIut] = useState(new Iuten());
+  const [iut, setIut] = useState(new Iuten())
   const [table, setTable] = useState(iut.getTable());
   const [marked, setMarked] = useState([[], []]);
   const [enemyMoves, setEnemyMoves] = useState([[], []]);
@@ -166,7 +166,7 @@ function Tabuleiro(props) {
     }
   };
 
-  const ia = async () => {
+  async function BOT() {
     if (play) {
       let iaTeam;
       if (NPLAYERS < 2) {
@@ -186,7 +186,8 @@ function Tabuleiro(props) {
         }
       }
     }
-  };
+  }
+
 
   let reset = () => {
     iut.restart();
