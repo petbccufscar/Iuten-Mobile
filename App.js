@@ -103,6 +103,7 @@ export default function App() {
     }),
     [toggleTheme, isThemeDark]
   );
+  const statusColor = isThemeDark ? "light" : "dark";
   if (isInitialState)
     return (<View style={{backgroundColor:"#5e697d", flex:1}}/>)
   return (
@@ -110,6 +111,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>
           <MyStack></MyStack>
+          <StatusBar style={statusColor} />
         </NavigationContainer>
       </PaperProvider>
     </PreferencesContext.Provider>)

@@ -37,9 +37,9 @@ export default function Menu({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={pvpc}>
         <Text style={styles.text}>Player vs PC</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={pcvpc}>
+      {/* <TouchableOpacity style={styles.button} onPress={pcvpc}>
         <Text style={styles.text}>PC vs PC</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={manual}>
         <Text style={styles.text}>Manual</Text>
       </TouchableOpacity>

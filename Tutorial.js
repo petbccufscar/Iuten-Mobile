@@ -225,6 +225,7 @@ export default function Tutorial() {
                   Elefantes são capazes de se movimentar apenas na linha à
                   frente dele, formando um T. A frente de um elefante é sempre
                   voltada para a base inimiga.
+                  Eles são as únicas peças imunes às flechas da torre de arquearia.
                 </Paragraph>
                 <Image
                   style={{ width: 150, height: 150 }}

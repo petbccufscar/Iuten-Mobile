@@ -208,7 +208,10 @@ export default class Iuten{
       count += 1;
       moves.push([curx, cury]);
     }
-
+    const size  = moves.length;
+    if (shot && size > 0 && this.table[moves[size-1][1]][moves[size-1][0]].toLowerCase() == 'e'){
+      moves = []
+    }
     return moves;
   }
   adjacente(p, team) {

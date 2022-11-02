@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Iuten-Mobile",
+    "name": "Iuten Mobile",
     "slug": "Iuten-Mobile",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -30,6 +30,11 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "",
-    "githubUrl": "https://github.com/petbccufscar/Iuten-Mobile"
+    "githubUrl": "https://github.com/petbccufscar/Iuten-Mobile",
+    "extra": {
+      "eas": {
+        "projectId": "0e8a59a3-f5ae-4604-bf0a-2b688cf737eb"
+      }
+    }
   }
 }
