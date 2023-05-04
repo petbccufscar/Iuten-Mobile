@@ -55,6 +55,7 @@ function Tabuleiro(props) {
   const [marked, setMarked] = useState([[], []]);
   const [enemyMoves, setEnemyMoves] = useState([[], []]);
   const [SELECTED, setSELECTED] = useState(null);
+  const [flip, setFlip] = useState(false);
 
   const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
@@ -206,11 +207,12 @@ function Tabuleiro(props) {
 
 
   let reset = () => {
-    iut.restart();
-    setTable(iut.table);
-    setMarked([[], []]);
-    setEnemyMoves([[], []]);
-    setSELECTED(null);
+    setFlip(!flip)
+    // iut.restart();
+    // setTable(iut.table);
+    // setMarked([[], []]);
+    // setEnemyMoves([[], []]);
+    // setSELECTED(null);
   };
 
   let ResetComponent = ({ reset }) => {
@@ -227,7 +229,8 @@ function Tabuleiro(props) {
     iut.gameover() == 0
       ? `Vez de jogador: ${iut.CURPLAYER + 1}`
       : `Jogador ${iut.gameover()} Ganhou!`;
-
+  const flipper = (a) => flip? a.slice().reverse(): a;
+  const ftable = flipper(table);
   let turi = require("./images/bg.jpg");
   return (
     <View style={styles.container}>
@@ -238,16 +241,16 @@ function Tabuleiro(props) {
       {table.map((e, i) => (
         <View key={i} style={styles.row}>
           <Space />
-          {e.map((f, j) => {
+          {flipper(e).map((f, j) => {
             if (i < 2 || j < 1 || j > 9 || i > 12)
               return <React.Fragment key={j}></React.Fragment>;
-            const peca = table[i][j];
+            const peca = flip? table[14 - i][10 - j]: table[i][j];
             return (
               <TouchableOpacity
                 key={j}
-                style={{ ...styles.square, backgroundColor: color(j, i)}}
-                onPress={() => touch(j, i)}
-                onLongPress={() => longTouch(j, i)}
+                style={{ ...styles.square, backgroundColor: flip? color(10 - j, 14 - i): color(j, i)}}
+                onPress={() => flip?  touch(10 - j, 14 - i): touch(j, i)}
+                onLongPress={() => flip?longTouch(10 - j, 14 - i) :longTouch(j, i)}
               >
                 <Piece peca={peca}></Piece>
               </TouchableOpacity>
@@ -257,7 +260,13 @@ function Tabuleiro(props) {
         </View>
       ))}
       </ImageBackground>
-      <ResetComponent reset={reset}></ResetComponent>
+      <View style={{flexDirection:'row', width:'100%'}}>
+        <ResetComponent reset={reset}></ResetComponent>
+        <View style={{flex:1}}/>
+        <TouchableOpacity style={{ margin: 20, padding: 5}} onPress={() => setFlip(!flip)}>
+          <Text>Flip Vertical</Text>
+        </TouchableOpacity>
+      </View>
       </View>
   );
 }
