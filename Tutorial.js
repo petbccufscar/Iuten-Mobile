@@ -123,7 +123,7 @@ export default function Tutorial() {
               left={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Image source={require("./images/p1.png")} />}
+                  icon={() => <Image source={require("./images/p1.png")} style={styles.img}/>}
                 />
               )}
             >
@@ -152,7 +152,7 @@ export default function Tutorial() {
               left={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Image source={require("./images/d1.png")} />}
+                  icon={() => <Image source={require("./images/d1.png")} style={styles.img}/>}
                 />
               )}
             >
@@ -183,7 +183,7 @@ export default function Tutorial() {
               left={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Image source={require("./images/a1.png")} />}
+                  icon={() => <Image source={require("./images/a1.png")} style={styles.img}/>}
                 />
               )}
             >
@@ -215,7 +215,7 @@ export default function Tutorial() {
               left={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Image source={require("./images/e1.png")} />}
+                  icon={() => <Image source={require("./images/e1.png")} style={styles.img}/>}
                 />
               )}
             >
@@ -245,7 +245,7 @@ export default function Tutorial() {
               left={(props) => (
                 <List.Icon
                   {...props}
-                  icon={() => <Image source={require("./images/p1.png")} />}
+                  icon={() => <Image source={require("./images/c1.png")} style={styles.img}/>}
                 />
               )}
             >
@@ -307,5 +307,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "justify",
   },
-  img: {},
+  img: {
+    height: 50,
+    width: 50,
+  },
 });

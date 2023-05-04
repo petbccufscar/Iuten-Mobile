@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   Image,
+  ImageBackground
 } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import {
@@ -14,6 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import Iuten from "./iuten";
 import { PreferencesContext } from "./PreferencesContext";
+import { Audio } from 'expo-av';
 
 const padding = 10;
 const square = (wp("100%") - 10) / 9;
@@ -32,6 +34,9 @@ function Tabuleiro(props) {
   const RANDOM = props.RANDOM;
   const cooldown = 1000;
   const [play, setplay] = useState(true);
+  
+
+
   useEffect(() => {
     return () => {
       setplay(false);
@@ -54,14 +59,13 @@ function Tabuleiro(props) {
   const { toggleTheme, isThemeDark } = React.useContext(PreferencesContext);
 
   const branco = isThemeDark ? "#333" : "#fff";
-  const verde = "#0F0";
-  const amarelo = "#F0F";
-  const vermelho = "#F00";
-  const azul = "#00F";
-  const orange100 = "#ffe0b2";
-  const orange400 = "#ffb74d";
-  const ciano = "#00FFFF";
-
+  const verde = "rgba(0, 255, 0, 0.5)";
+  const amarelo = "rgba(255, 0, 255, 0.5)";
+  const vermelho = "rgba(255, 0, 0, 0.5)";
+  const azul = "rgba(0, 0, 255, 0.5)";
+  const orange100 = "rgba(255, 224, 178, 1)";
+  const orange400 = "rgba(255, 183, 77, 1)";
+  const ciano = "rgba(0, 255, 255, 0.5)";
   switch (NPLAYERS) {
     case 1:
       myTeam = 1;
@@ -73,7 +77,15 @@ function Tabuleiro(props) {
     default:
       myTeam = 3;
   }
+  async function playSound() {
+    const {sound} = await Audio.Sound.createAsync(require('./assets/tac.mp3'));
+    await sound.playAsync();
+  }
 
+  async function loadSound() {
+    const {sound} = await Audio.Sound.createAsync(require('./assets/tac.mp3'));
+    return sound
+  }
   const color = (i, j) => {
     if (iut.gameover() != 0) {
       if (iut.includes([iut.TORRE1, iut.TORRE2], [i, j])) {
@@ -81,7 +93,7 @@ function Tabuleiro(props) {
       } else if (iut.includes([iut.TRONO2, iut.TRONO1], [i, j])) {
         return vermelho;
       }
-      return branco;
+      return "transparent";
     }
 
     if (enemyMoves == undefined || enemyMoves.length < 2)
@@ -104,15 +116,17 @@ function Tabuleiro(props) {
       return vermelho;
     }
 
-    return branco;
+    return 'transparent';
   };
   const touch = (i, j) => {
     switch (color(i, j)) {
       case verde:
-        iut.move(SELECTED, [i, j], iut.CURPLAYER, "m");
-        setMarked([[], []]);
-        setTable(iut.table);
-
+        loadSound().then(async (s) => {
+          iut.move(SELECTED, [i, j], iut.CURPLAYER, "m");
+          setMarked([[], []]);
+          setTable(iut.table);
+          await s.playAsync()
+        })
         break;
       case amarelo:
         iut.move(SELECTED, [i, j], iut.CURPLAYER, "s");
@@ -176,7 +190,7 @@ function Tabuleiro(props) {
       if (NPLAYERS == 0) {
         iaTeam = iut.CURPLAYER;
       }
-      if (NPLAYERS != 2) {
+      if (NPLAYERS != 2 && iut.CURPLAYER == iaTeam) {
         let u = iut.DecisiveChoice(iaTeam, RANDOM);
 
         if (u != null) {
@@ -184,6 +198,7 @@ function Tabuleiro(props) {
           setTable(iut.table);
           setMarked([[], []]);
           setIut(iut);
+          playSound();
         }
       }
     }
@@ -212,11 +227,14 @@ function Tabuleiro(props) {
     iut.gameover() == 0
       ? `Vez de jogador: ${iut.CURPLAYER + 1}`
       : `Jogador ${iut.gameover()} Ganhou!`;
+
+  let turi = require("./images/bg.jpg");
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 30, fontWeight: "bold", margin: 20 }}>
         {texto}
       </Text>
+    <ImageBackground source={turi} style={styles.table}>
       {table.map((e, i) => (
         <View key={i} style={styles.row}>
           <Space />
@@ -227,7 +245,7 @@ function Tabuleiro(props) {
             return (
               <TouchableOpacity
                 key={j}
-                style={{ ...styles.square, backgroundColor: color(j, i) }}
+                style={{ ...styles.square, backgroundColor: color(j, i)}}
                 onPress={() => touch(j, i)}
                 onLongPress={() => longTouch(j, i)}
               >
@@ -238,8 +256,9 @@ function Tabuleiro(props) {
           <Space />
         </View>
       ))}
+      </ImageBackground>
       <ResetComponent reset={reset}></ResetComponent>
-    </View>
+      </View>
   );
 }
 
@@ -287,7 +306,7 @@ function Piece({ peca }) {
       break;
   }
 
-  return <Image source={icon} />;
+  return <Image source={icon} style={{width:48, height:48}}/>;
 }
 
 const styles = StyleSheet.create({

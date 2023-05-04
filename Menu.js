@@ -30,16 +30,26 @@ export default function Menu({ navigation }) {
   };
 
   return (
+    <View style={styles.greater_container}>
     <View style={styles.container}>
+    <Text style={{color:'magenta', fontWeight:'bold'}}>Dificuldade do BOT</Text>
+    <Slider 
+        style={{alignSelf: 'stretch', height: 30, marginHorizontal:20}}
+        maximumValue={1}
+        minimumValue={-0.1}
+        step={0.1}
+        value={sliderValue}
+          onValueChange={
+            (sliderValue) => setSliderValue(sliderValue)
+          }
+      />
+      
       <TouchableOpacity style={styles.button} onPress={pvp}>
         <Text style={styles.text}>Player vs Player</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={pvpc}>
         <Text style={styles.text}>Player vs PC</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.button} onPress={pcvpc}>
-        <Text style={styles.text}>PC vs PC</Text>
-      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={manual}>
         <Text style={styles.text}>Manual</Text>
       </TouchableOpacity>
@@ -51,24 +61,20 @@ export default function Menu({ navigation }) {
       >
         <Text style={styles.text}>Trocar tema</Text>
       </TouchableOpacity>
-      <Text>Dificuldade do BOT</Text>
-      <Slider 
-        style={{width: 150, height: 30}}
-        maximumValue={1}
-        minimumValue={-0.1}
-        step={0.1}
-        value={sliderValue}
-          onValueChange={
-            (sliderValue) => setSliderValue(sliderValue)
-          }
-      />
+    </View>
+      <Text style={{color:'magenta', fontWeight:'bold'}}>Feito por PET-BCC UFSCar</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  greater_container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   container: {
-    height: "100%",
+    height: "90%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -77,6 +83,8 @@ const styles = StyleSheet.create({
     backgroundColor: "magenta",
     padding: 10,
     borderRadius: 10,
+    alignSelf: 'stretch',
+    alignItems: 'center',
   },
   text: {
     color: "white",
