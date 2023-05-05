@@ -207,12 +207,11 @@ function Tabuleiro(props) {
 
 
   let reset = () => {
-    setFlip(!flip)
-    // iut.restart();
-    // setTable(iut.table);
-    // setMarked([[], []]);
-    // setEnemyMoves([[], []]);
-    // setSELECTED(null);
+    iut.restart();
+    setTable(iut.table);
+    setMarked([[], []]);
+    setEnemyMoves([[], []]);
+    setSELECTED(null);
   };
 
   let ResetComponent = ({ reset }) => {
