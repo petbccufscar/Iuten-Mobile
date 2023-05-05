@@ -28,7 +28,7 @@ export default function Tutorial() {
               na torre, ela DEVERÁ descer na próxima rodada.
             </Paragraph>
             <Paragraph style={styles.paragraph}>
-              - Para moer uma peça, basta tocar em um movimento possível dela.
+              - Para mover uma peça, basta tocar em um movimento possível dela.
             </Paragraph>
           </View>
         </List.Accordion>
