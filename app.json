@@ -2,7 +2,7 @@
   "expo": {
     "name": "Iuten Mobile",
     "slug": "Iuten-Mobile",
-    "version": "1.2.4",
+    "version": "1.2.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pet.iuten"
+      "package": "com.pet.iuten",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
